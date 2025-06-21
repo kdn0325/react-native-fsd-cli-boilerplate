@@ -1,97 +1,70 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
-# Getting Started
-
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
-
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+src/
+├── app/ # 앱 진입점, 네비게이션, 전역 설정
+│ ├── App.tsx # 루트 컴포넌트
+│ ├── navigation/ # 네비게이션 관련
+│ │ ├── index.ts # 네비게이션 셋업
+│ │ └── types.ts # 네비게이션 타입 정의
+│ └── providers/ # 전역 context/provider 모음 (ThemeProvider, AuthProvider 등)
+│ └── index.ts
+│
+├── pages/ # 라우터에서 직접 사용되는 페이지 컴포넌트
+│ ├── LoginPage/ # 페이지 단위 폴더
+│ │ ├── index.tsx # 페이지 컴포넌트 (UI 조립, feature 조합)
+│ │ └── styles.ts # 페이지 스타일 (필요 시)
+│ └── HomePage/
+│ ├── index.tsx
+│ └── styles.ts
+│
+├── processes/ # 여러 feature/엔티티 조합한 비즈니스 플로우, 서비스 계층
+│ └── authProcess.ts # 예: 로그인, 회원가입 흐름 구현
+│
+├── features/ # 단일 기능 단위 (로그인, 회원가입, 프로필 등)
+│ └── login/ # 로그인 feature 예시
+│ ├── api/ # 서버 API 호출 함수
+│ │ └── loginApi.ts
+│ ├── model/ # 상태관리 (zustand, recoil 등)
+│ │ └── loginStore.ts
+│ ├── ui/ # 순수 UI 컴포넌트
+│ │ ├── LoginForm.tsx
+│ │ └── LoginButton.tsx
+│ ├── hooks/ # 커스텀 훅
+│ │ └── useLoginLogic.ts
+│ ├── lib/ # feature 내 보조 유틸 함수
+│ │ └── validation.ts
+│ ├── consts/ # 상수 모음
+│ │ └── errorMessages.ts
+│ ├── config/ # 구성값 (API 엔드포인트, 환경설정 등)
+│ │ └── config.ts
+│ ├── index.ts # feature 외부 진입점 (export 정리)
+│ └── types.ts # 타입 정의
+│
+├── entities/ # 도메인 모델, 재사용 가능 상태/유틸
+│ └── user/ # 사용자 엔티티 예시
+│ ├── api/
+│ │ └── userApi.ts
+│ ├── model/
+│ │ └── userStore.ts
+│ ├── lib/
+│ │ └── userHelpers.ts
+│ ├── consts/
+│ ├── config/
+│ ├── types.ts
+│ └── index.ts
+│
+├── shared/ # 재사용 컴포넌트, 스타일, 유틸, 훅 등
+│ ├── components/ # 버튼, 입력창, 모달 등 UI 컴포넌트
+│ │ ├── Button.tsx
+│ │ └── Input.tsx
+│ ├── hooks/ # 공통 커스텀 훅
+│ │ └── useDebounce.ts
+│ ├── utils/ # 공통 유틸 함수
+│ │ └── formatDate.ts
+│ ├── styles/ # 공통 스타일, 테마
+│ │ ├── colors.ts
+│ │ └── typography.ts
+│ ├── constants/ # 공통 상수
+│ │ └── appConstants.ts
+│ └── config/ # 전역 설정 (env 등)
+│ └── env.ts
+│
+└── index.tsx # RN 앱 엔트리 포인트
